@@ -11,3 +11,6 @@ class VoiceRecognition(object):
 		returns the found keyword or None.
 		"""
 		print '[VoiceRecognition] trying to recognize a word from the following list: {}'.format(keywords)
+
+		# we have to return a keyword
+		return keywords[:1]
