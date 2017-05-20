@@ -1,3 +1,5 @@
+import os
+
 class VoiceOutput(object):
     def __init__(self):
         """
@@ -10,3 +12,4 @@ class VoiceOutput(object):
         Say the given phrase.
         """
         print '[VoiceOutput] saying phrase: {}'.format(phrase)
+        os.system('echo {} | festival --tts'.format(phrase))
