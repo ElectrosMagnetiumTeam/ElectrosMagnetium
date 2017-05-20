@@ -18,3 +18,8 @@ For the chess logic
 ```sh
 pip install python-chess
 ```
+
+For the serial:
+```sh
+pip install pyserial
+```
