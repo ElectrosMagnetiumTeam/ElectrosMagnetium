@@ -1,10 +1,16 @@
 class Game(object):
+    # Game states
+    PLAYING = 0
+    WIN = 1
+    TIE = 2
+
     def __init__(self, board_width, board_height):
         """
         Initialize the game object
         """
         print '[Game] instance initiallized'
         self._grid = [[None for y in range(board_height)] for x in range(board_width)] 
+        self._state = Game.PLAYING
         self.set_initial_pieces()
 
     def place_piece(self, piece, x, y):
@@ -48,6 +54,25 @@ class Game(object):
         pieces animations and grid sizes
         """
         raise NotImplementedError("Please Implement this method in a subclass")
+
+    def get_game_state(self):
+        """
+        Returns the game state (PLAYING, WIN, TIE)
+        """
+        return self._state
+
+    def update_game_state(self, new_state):
+        """
+        Updates the game state
+        """
+        self._state = new_state
+
+    def get_winner(self):
+        """
+        Subclass specific implementation.
+        If a win condition is reached, the function should return the string name of the winner (i.e. white/black)
+        """
+        raise NotImplementedError("PLease Implement this method in a subclass")
 
     def move(self, x_from, y_from, x_to, y_to):
         """

@@ -116,12 +116,30 @@ class ChessGame(Game):
                         # TODO: Replace with None later?
                         self._grid[x][y] = ChessPiece(EMPTY_SQUARE, x, y)
 
+    def get_winner(self):
+        """
+        Returns wether the winner is black or white
+        """
+        return "White" if self._chess_board.result() == '1-0' else "Black"
+
     def is_move_legal(self, x_from, y_from, x_to, y_to):
         """
         checks if the move from (x_from, y_from) to (x_to, y_to) is legal
         """
         return True
 
+    def move(self, x_from, y_from, x_to, y_to):
+        """
+        Calls the superclass move() and updates the game state
+        """
+        super(Game, self).move(x_from, y_from, x_to, y_to)
+
+        if self._chess_board.is_game_over():
+            if self._chess_board.is_checkmate():
+                self.update_game_state(Game.WIN)
+            else:
+                self.update_game_state(Game.TIE)
+    
     def execute_move(self, from_piece, to_piece):
         """
         Subclass specific implementation of move that takes care of updating
