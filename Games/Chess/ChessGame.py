@@ -127,24 +127,46 @@ class ChessGame(Game):
                         # TODO: Replace with None later?
                         self._grid[x][y] = ChessPiece(EMPTY_SQUARE, x, y)
 
-    def get_winner(self):
+    def get_victory_string(self):
         """
-        Returns wether the winner is black or white
+        Returns wether the winner is black or white and the reason for the victory
+        The possible reasons are: checkmate, stalemate, insufficient material, 
+        seventyfive-move rule, fivefold repetition or a variant end condition.
         """
-        return "White" if self._chess_board.result() == '1-0' else "Black"
+        team = "white" if self._chess_board.result() == '1-0' else "black"
 
+        if self._chess_board.is_checkmate():
+            reason = "checkmate"
+        elif self._chess_board.is_stalemate():
+            reason = "stalemate"
+        elif self._chess_board.is_insufficient_material():
+            reason = "insufficient material"
+        elif self._chess_board.is_seventyfive_moves():
+            reason = "seventy five moves"
+        elif self._chess_board.is_fivefold_repetition():
+            reason = "fivefold repetition"
+        else:
+            reason = "unknown"
+
+        return (team, reason)
 
     def is_move_legal(self, from_piece, to_piece):
         """
         checks if the move is legal
         """
-        x = self._grid_to_board(*from_piece.get_coords())
-        y = self._grid_to_board(*to_piece.get_coords())
-
-        if self._chess_board.is_legal(chess.Move.from_uci(''.join((x + y)) )):
+        if self._chess_board.is_legal(get_move(from_piece, to_piece)):
             return True
         else:
             return False
+
+    def get_move(self, from_piece, to_piece):
+        '''
+        Returns a chess move object from the given pieces
+        '''
+        x = self._grid_to_board(*from_piece.get_coords())
+        y = self._grid_to_board(*to_piece.get_coords())
+
+        return chess.Move.from_uci(''.join((x + y))) 
 
     def move(self, x_from, y_from, x_to, y_to):
         """
@@ -166,4 +188,7 @@ class ChessGame(Game):
         the grid and physically moving the pieces according to the game's specific
         pieces animations and grid sizes
         """
+        move = get_move()
+        self._chess_board.push(move)
+        print self._chess_board
         self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])

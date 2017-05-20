@@ -41,14 +41,15 @@ def play_game(vo, vr, hardware_interface):
         else:
             vo.say('Your move was done')
 
-    if game.TIE == game.get_state():
-        vo.say('You have reached a tie')
+    if Game.TIE == game.get_state():
+        vo.say('You have reached a tie by {}'.format(game.get_victory_string()[1])
     else:
-        vo.say('Player {} wins'.format(game.get_winner()))
+        vo.say('Player {} wins by {}'.format(*game.get_victory_string()))
 
 def main():
     vo = VoiceOutput()
     vr = VoiceRecognition()
+
     hardware_interface = ArduinoSerial(BOARD_SCALE)
     
     logging.basicConfig(level=logging.DEBUG)
@@ -56,6 +57,7 @@ def main():
     while True:
         vo.say('New game has begun')
         play_game(vo, vr, hardware_interface)
+
 
 if __name__ == '__main__':
     main()

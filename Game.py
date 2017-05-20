@@ -67,10 +67,11 @@ class Game(object):
         """
         self._state = new_state
 
-    def get_winner(self):
+    def get_victory_string(self):
         """
         Subclass specific implementation.
         If a win condition is reached, the function should return the string name of the winner (i.e. white/black)
+        and the reason for the victory.
         """
         raise NotImplementedError("PLease Implement this method in a subclass")
 
