@@ -55,7 +55,7 @@ class Game(object):
         """
         raise NotImplementedError("Please Implement this method in a subclass")
 
-    def get_game_state(self):
+    def get_state(self):
         """
         Returns the game state (PLAYING, WIN, TIE)
         """

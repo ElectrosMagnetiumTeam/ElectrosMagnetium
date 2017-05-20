@@ -13,6 +13,7 @@ def recognize_coords(vr, vo):
     while True:
         coord = vr.recognize()
         if len(coord) == 2 and ('A' <= coord[0] <= 'H') and ('1' <= coord[1] <= '8'):
+            vo.say('Your coordinate was - {}'.format(coord))
             return coord
 
         vo.say('I did not understand the coordinate, please say it again')
@@ -23,7 +24,7 @@ def translate_coord(coord):
 def play_game(vo, vr, hardware_interface):
     game = ChessGame(hardware_interface)
     
-    while Game.PLAYING == game.get_state():
+    while game.PLAYING == game.get_state():
         vo.say('Please state the source piece coordinate')
         source_coordinate = recognize_coords(vr, vo)
 
@@ -40,7 +41,7 @@ def play_game(vo, vr, hardware_interface):
         else:
             vo.say('Your move was done')
 
-    if Game.TIE == game.get_state():
+    if game.TIE == game.get_state():
         vo.say('You have reached a tie')
     else:
         vo.say('Player {} wins'.format(game.get_winner()))
