@@ -47,8 +47,7 @@ def play_game(vo, vr, game):
             vo.say('You have reached a tie')
         else:
             vo.say('Player {} wins'.format(game.get_winner()))
-        
-        return
+        break
 
 def main():
     vo = VoiceOutput()
