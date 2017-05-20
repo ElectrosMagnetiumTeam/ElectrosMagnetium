@@ -22,6 +22,7 @@ def translate_coord(coord):
 
 def play_game(vo, vr, game):
     while True:
+        print game.get_win_string()
         vo.say('Please state the source piece coordinate')
         source_coordinate = recognize_coords(vr, vo)
 
@@ -46,7 +47,7 @@ def play_game(vo, vr, game):
         if Game.TIE == game_state:
             vo.say('You have reached a tie')
         else:
-            vo.say('Player {} wins'.format(game.get_winner()))
+            vo.say('Player {} wins by {}'.format(*game.get_victory_string()))
         
         return
 
