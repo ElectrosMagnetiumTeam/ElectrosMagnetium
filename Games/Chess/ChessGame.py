@@ -62,7 +62,7 @@ class ChessGame(Game):
         Convert a chess piece's grid x,y coordinates to a normal chess board's coordinates
         '''
         # Chess columns are represented with letters while rows are numbers
-        x = chr(ord('a') + x + self.GRAVEYARD_WIDTH)
+        x = chr(ord('A') + x + self.GRAVEYARD_WIDTH)
         y = str(y) 
         return (x,y)
 
@@ -71,7 +71,7 @@ class ChessGame(Game):
         Convert a chess piece's board normal x,y coordinates to the grid's coordinates 
         '''
         # Chess columns are represented with letters while rows are numbers
-        x = ord(x) - ord('a')
+        x = ord(x) - ord('A')
         y = int(y) 
         return (x,y)
 
@@ -139,4 +139,5 @@ class ChessGame(Game):
         the grid and physically moving the pieces according to the game's specific
         pieces animations and grid sizes
         """
-        _hardware.move(list(self._board_to_grid(*from_piece.get_coords())))
+        self._hardware.move(list(self._board_to_grid(*from_piece.get_coords()),
+                                 self._board_to_grid(*to_piece.get_coords())))

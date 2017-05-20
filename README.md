@@ -13,3 +13,8 @@ For the text-to-speech:
 ```sh
 sudo apt-get install festival
 ```
+
+For the chess logic
+```sh
+pip install python-chess
+```
