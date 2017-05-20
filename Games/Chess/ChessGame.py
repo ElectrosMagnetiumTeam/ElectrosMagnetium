@@ -27,8 +27,9 @@ class ChessGame(Game):
     BOARD_HEIGHT = 8
     BOARD_WIDTH = 12 # GRAVEYARD_WIDTH + PLAYING_FIELD_WIDTH
 
-    def __init__(self, fen='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
-                       graveyard_fen='8/8/8/8', hardware):
+    def __init__(self, hardware, 
+                 fen='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+                 graveyard_fen='8/8/8/8'):
         """
         Initialize the chess game object.
         """

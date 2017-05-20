@@ -3,7 +3,7 @@
 from VoiceRecognition import VoiceRecognition
 from VoiceOutput import VoiceOutput
 from Games.Chess.ChessGame import ChessGame
-import time
+from ArduinoSerial import ArduinoSerial
 
 def recognize_coords(vr, vo):
     while True:
