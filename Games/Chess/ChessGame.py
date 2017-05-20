@@ -58,15 +58,6 @@ class ChessGame(Game):
 
         return pieces
 
-    def _grid_to_board(self, x, y):
-        '''
-        Convert a chess piece's grid x,y coordinates to a normal chess board's coordinates
-        '''
-        # Chess columns are represented with letters while rows are numbers
-        x = chr(ord('A') + x + self.GRAVEYARD_WIDTH)
-        y = str(y) 
-        return (x,y)
-
     def _board_to_grid(self, x, y):
         '''
         Convert a chess piece's board normal x,y coordinates to the grid's coordinates 
@@ -82,14 +73,12 @@ class ChessGame(Game):
         """
         Get a game piece by (x, y). 
         """
-        x, y = self._board_to_grid(x, y)
         return self._grid[x][y]
 
     def place_piece(self, piece, x, y):
         """
         Place a game piece in the grid if it's empty 
         """
-        x, y = self._board_to_grid(x, y)
         if None == self._grid[x, y]:
             self._grid[x][y] = value
             return True
@@ -100,7 +89,6 @@ class ChessGame(Game):
         """
         Remove a game piece
         """
-        x, y = self._board_to_grid(x, y)
         self._grid[x][y] = None
 
     def set_initial_pieces(self):
@@ -132,7 +120,7 @@ class ChessGame(Game):
         """
         checks if the move from (x_from, y_from) to (x_to, y_to) is legal
         """
-        pass
+        return True
 
     def execute_move(self, from_piece, to_piece):
         """
@@ -140,5 +128,4 @@ class ChessGame(Game):
         the grid and physically moving the pieces according to the game's specific
         pieces animations and grid sizes
         """
-        self._hardware.move(list(self._board_to_grid(*from_piece.get_coords()),
-                                 self._board_to_grid(*to_piece.get_coords())))
+        self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])

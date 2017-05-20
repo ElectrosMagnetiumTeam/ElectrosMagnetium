@@ -13,7 +13,7 @@ def recognize_coords(vr, vo):
     while True:
         coord = vr.recognize()
         if len(coord) == 2 and ('A' <= coord[0] <= 'H') and ('1' <= coord[1] <= '8'):
-            return coord
+            return ord(coords[0]) - ord('A'), ord(coords[1]) - ord('1')
 
         vo.say('I did not understand the coordinate, please say it again')
 

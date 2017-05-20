@@ -70,3 +70,4 @@ class Game(object):
 
         # do the move's special effects
         self.execute_move(from_piece, to_piece)
+        return True
