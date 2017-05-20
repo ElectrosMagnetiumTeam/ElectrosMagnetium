@@ -1,4 +1,4 @@
-import os
+from subprocess import Popen, PIPE
 
 class VoiceOutput(object):
     def __init__(self):
@@ -12,4 +12,7 @@ class VoiceOutput(object):
         Say the given phrase.
         """
         print '[VoiceOutput] saying phrase: {}'.format(phrase)
-        os.system('echo {} | festival --tts'.format(phrase))
+        proc = Popen(['festival', '--tts'], stdin=PIPE)
+        proc.stdin.write(phrase)
+        proc.stdin.close()
+        proc.wait()

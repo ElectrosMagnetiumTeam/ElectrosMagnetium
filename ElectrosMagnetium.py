@@ -13,9 +13,12 @@ def recognize_coords(vr, vo):
     while True:
         coord = vr.recognize()
         if len(coord) == 2 and ('A' <= coord[0] <= 'H') and ('1' <= coord[1] <= '8'):
-            return ord(coords[0]) - ord('A'), ord(coords[1]) - ord('1')
+            return coord
 
         vo.say('I did not understand the coordinate, please say it again')
+
+def translate_coord(coord):
+    return (ord(coord[0]) - ord('A'), ord(coord[1]) - ord('1'))
 
 def main():
     vo = VoiceOutput()
@@ -36,7 +39,8 @@ def main():
 
         vo.say('You requested a move from {} to {}'.format(source_coordinate, dest_coordinate))
 
-        move_ok = game.move(*source_coordinate + dest_coordinate)
+        move_ok = game.move(*(translate_coord(source_coordinate) + 
+                              translate_coord(dest_coordinate)))
         
         if not move_ok:
             vo.say('Your move was illegal')
