@@ -139,4 +139,5 @@ class ChessGame(Game):
         the grid and physically moving the pieces according to the game's specific
         pieces animations and grid sizes
         """
-        self._hardware.move(list(self._board_to_grid(*from_piece.get_coords())))
+        self._hardware.move(list(self._board_to_grid(*from_piece.get_coords()),
+                                 self._board_to_grid(*to_piece.get_coords())))
