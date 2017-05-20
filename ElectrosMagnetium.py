@@ -12,7 +12,7 @@ BOARD_SCALE = 30
 
 def recognize_coords(vr, vo):
     while True:
-        coord = vr.recognize().replace(" ", "").strip()
+        coord = vr.recognize().replace(" ", "").strip().upper()
         if len(coord) == 2 and ('A' <= coord[0] <= 'H') and ('1' <= coord[1] <= '8'):
             vo.say('Your coordinate was - {}'.format(coord))
             return coord

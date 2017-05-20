@@ -44,9 +44,8 @@ class ArduinoSerial(object):
         self._send_gcode("M3" if is_on else "M4")
 
     def open(self, port, baud=DEFAULT_BAUD):
-        self._serial = Serial(port=port, baudrate=baud)
-        # windows bug...
         try:
+            self._serial = Serial(port=port, baudrate=baud)
             self._serial.open()
         except Exception:
             pass
