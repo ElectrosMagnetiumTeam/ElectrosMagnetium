@@ -5,6 +5,9 @@ from VoiceOutput import VoiceOutput
 from Games.Chess.ChessGame import ChessGame
 from ArduinoSerial import ArduinoSerial
 
+# Physical board scale in CM
+BOARD_SCALE = 30
+
 def recognize_coords(vr, vo):
     while True:
         coord = vr.recognize()
