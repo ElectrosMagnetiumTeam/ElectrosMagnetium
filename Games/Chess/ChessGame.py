@@ -40,6 +40,25 @@ class ChessGame(Game):
         Game.__init__(self, self.BOARD_WIDTH, self.BOARD_HEIGHT)
         print '[ChessGame] instance initiallized with FEN: "{}" and graveyard FEN: "{}"'.format(fen, graveyard_fen)
 
+    def __str__(self):
+        '''
+        ASCII representation of the chess board
+        '''
+        grid_str = ""
+
+        grid_str += ' ' + '-'*(self.BOARD_WIDTH + self.GRAVEYARD_WIDTH) + '\n'
+
+        for y in range(self.BOARD_HEIGHT):
+            grid_str += str(self.PLAYING_FIELD_WIDTH - y) + '|'
+            for x in range(self.BOARD_WIDTH):
+                grid_str += self._grid[x][y].get_type()
+            grid_str += "|\n"
+
+        grid_str += ' ' + '-'*(self.BOARD_WIDTH + self.GRAVEYARD_WIDTH) + '\n'
+        grid_str += ' ' * 4 + 'abcdefgh'
+
+        return grid_str
+
     def _fen_to_array(self, fen):
         '''
         Convert a fen string to an array

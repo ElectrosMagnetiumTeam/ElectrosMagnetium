@@ -25,7 +25,7 @@ class GamePiece(object):
         """
         Returns the type of the piece
         """
-        return _type
+        return self._type
 
     def set_type(self, piece_type):
         """

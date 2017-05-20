@@ -13,6 +13,12 @@ class Game(object):
         self._state = Game.PLAYING
         self.set_initial_pieces()
 
+    def __str__(self):
+        """
+        ASCII representation of the game's board
+        """
+        raise NotImplementedError("Please Implement this method in a subclass")
+
     def place_piece(self, piece, x, y):
         """
         Place a game piece in the grid if it's empty 

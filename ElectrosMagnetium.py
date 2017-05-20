@@ -24,6 +24,7 @@ def translate_coord(coord):
 
 def play_game(vo, vr, hardware_interface):
     game = ChessGame(hardware_interface)
+    print game
     
     while game.PLAYING == game.get_state():
         vo.say('It is team {}s turn'.format(game.get_turn_string()))
@@ -43,6 +44,7 @@ def play_game(vo, vr, hardware_interface):
             vo.say('Your move was illegal')
         else:
             vo.say('Your move was done')
+            print game
 
     if Game.TIE == game.get_state():
         vo.say('You have reached a tie by {}'.format(game.get_victory_string()[1]))
