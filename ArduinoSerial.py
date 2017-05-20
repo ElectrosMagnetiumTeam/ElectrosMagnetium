@@ -10,17 +10,21 @@ class ArduinoSerial(object):
     DEFAULT_BAUD = 115200
     _logger = logging.getLogger("ArduinoSerial")
 
-    def __init__(self, scale=1):
+    def __init__(self, port, scale=1):
         self._serial = Serial()
         self._scale = scale
+        self.open(port)
 
     def _send_gcode(self, gcode):
         if gcode:
             self._logger.debug("sending gcode %s", gcode)
         gcode += "\n"
-        self._serial.write("%s\n" % (gcode,))
-        # Wait for grbl response with carriage return
-        grbl_out = self._serial.readline().strip()
+        try:
+            self._serial.write("%s\n" % (gcode,))
+            # Wait for grbl response with carriage return
+            grbl_out = self._serial.readline().strip()
+        except SerialException:
+            pass
         if grbl_out:
             self._logger.debug("recived %s", grbl_out)
 
