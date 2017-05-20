@@ -20,8 +20,10 @@ def recognize_coords(vr, vo):
 def translate_coord(coord):
     return (ord(coord[0]) - ord('A'), ord(coord[1]) - ord('1'))
 
-def play_game(vo, vr, game):
-    while True:
+def play_game(vo, vr, hardware_interface):
+    game = ChessGame()
+    
+    while Game.PLAYING == game.get_state():
         vo.say('Please state the source piece coordinate')
         source_coordinate = recognize_coords(vr, vo)
 
@@ -39,29 +41,21 @@ def play_game(vo, vr, game):
         
         vo.say('Your move was done')
 
-        game_sate = game.get_state()
-        if Game.PLAYING == game_state:
-            continue
-
-        if Game.TIE == game_state:
-            vo.say('You have reached a tie')
-        else:
-            vo.say('Player {} wins'.format(game.get_winner()))
-        break
+    if Game.TIE == game.get_state():
+        vo.say('You have reached a tie')
+    else:
+        vo.say('Player {} wins'.format(game.get_winner()))
 
 def main():
     vo = VoiceOutput()
     vr = VoiceRecognition()
-
     hardware_interface = ArduinoSerial(BOARD_SCALE)
     
     logging.basicConfig(level=logging.DEBUG)
     
     while True:
         vo.say('New game has begun')
-        game = ChessGame(hardware_interface)
-        play_game(vo, vr, game)
-
+        play_game(vo, vr, hardware_interface)
 
 if __name__ == '__main__':
     main()
