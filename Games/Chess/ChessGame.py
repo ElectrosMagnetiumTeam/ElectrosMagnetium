@@ -58,13 +58,21 @@ class ChessGame(Game):
 
         return pieces
 
+    def _grid_to_board(self, x, y):
+        '''
+        Convert a chess piece's grid x,y coordinates to a normal chess board's coordinates
+        '''
+        # Chess columns are represented with letters while rows are numbers
+        x = chr(ord('A') + x - self.GRAVEYARD_WIDTH).lower()
+        y = str(y + 1)
+        return (x,y)
+
     def _board_to_grid(self, x, y):
         '''
         Convert a chess piece's board normal x,y coordinates to the grid's coordinates 
         '''
-        # Chess columns are represented with letters while rows are numbers
-        x = ord(x) - ord('A')
-        y = int(y) 
+        # Add the graveyard offset 
+        x += self.GRAVEYARD_WIDTH 
         return (x,y)
 
     # Get, place and remove piece were overwritten since we are working with a different
@@ -73,12 +81,14 @@ class ChessGame(Game):
         """
         Get a game piece by (x, y). 
         """
+        x, y = self._board_to_grid(x, y)
         return self._grid[x][y]
 
     def place_piece(self, piece, x, y):
         """
         Place a game piece in the grid if it's empty 
         """
+        x, y = self._board_to_grid(x, y)
         if None == self._grid[x, y]:
             self._grid[x][y] = value
             return True
@@ -89,6 +99,7 @@ class ChessGame(Game):
         """
         Remove a game piece
         """
+        x, y = self._board_to_grid(x, y)
         self._grid[x][y] = None
 
     def set_initial_pieces(self):
@@ -122,11 +133,18 @@ class ChessGame(Game):
         """
         return "White" if self._chess_board.result() == '1-0' else "Black"
 
-    def is_move_legal(self, x_from, y_from, x_to, y_to):
+
+    def is_move_legal(self, from_piece, to_piece):
         """
-        checks if the move from (x_from, y_from) to (x_to, y_to) is legal
+        checks if the move is legal
         """
-        return True
+        x = self._grid_to_board(*from_piece.get_coords())
+        y = self._grid_to_board(*to_piece.get_coords())
+
+        if self._chess_board.is_legal(chess.Move.from_uci(''.join((x + y)) )):
+            return True
+        else:
+            return False
 
     def move(self, x_from, y_from, x_to, y_to):
         """
