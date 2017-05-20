@@ -14,20 +14,20 @@ class VoiceRecognition(object):
         
         print '[VoiceRecognition] Set minimum energy threshold to {}'.format(self._recognizer.energy_threshold)
 
-    def recognize(self, keywords):
+    def _try_recognize(self):
         """
-        Recognize the spoken word from a keywords list (e.g. ["one", "two", "three"]).
-        returns the found keyword or None.
+        returns the found keyword.
         """
-        print '[VoiceRecognition] Say something from the following list: {}!'.format(keywords)
-
+        value = None
+        print '[VoiceRecognition] Say something!'
+    
         with self._microphone: 
             audio = self._recognizer.listen(self._microphone)
 
         print '[VoiceRecognition] Got it! Now to recognize it...'
         try:
-            # recognize speech using Sphinx
-            value = self._recognizer.recognize_sphinx(audio, keyword_entries=keywords)
+            # recognize speech
+            value = self._recognizer.recognize_google(audio)
             print u'[VoiceRecognition] You said {}'.format(value).encode("utf-8")
 
         except speech_recognition.UnknownValueError:
@@ -37,3 +37,10 @@ class VoiceRecognition(object):
 
         # we have to return a keyword
         return value
+
+    def recognize(self):
+        recognized_words = None
+        while not recognized_words:
+            recognized_words = self._try_recognize()
+
+        return recognized_words
