@@ -10,7 +10,7 @@ A regular FEN representation would show the following:
                                           | en passant target square
                                           | |
                                           | |    fullmove counter
-                                                                                  v v    v
+                                          v v    v
 8/5N2/4p2p/5p1k/1p4rP/1P2Q1P1/P4P1K/5q2 w - - 15 44
 |                                     | ^      ^
  -------------------------------------  |      L halfmove clock
@@ -28,14 +28,14 @@ class ChessGame(Game):
     BOARD_WIDTH = 12 # GRAVEYARD_WIDTH + PLAYING_FIELD_WIDTH
 
     def __init__(self, fen='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
-                       graveyard_fen='8/8/8/8'):
+                       graveyard_fen='8/8/8/8', hardware):
         """
         Initialize the chess game object.
         """
         self._chess_board = chess.Board(fen)
         self._fen = fen
         self._graveyard = self._fen_to_array(graveyard_fen)
-        self._hardware = ArduinoSerial.ArduinoSerial()
+        self._hardware = hardware
         Game.__init__(self, self.BOARD_WIDTH, self.BOARD_HEIGHT)
         print '[ChessGame] instance initiallized with FEN: "{}" and graveyard FEN: "{}"'.format(fen, graveyard_fen)
 

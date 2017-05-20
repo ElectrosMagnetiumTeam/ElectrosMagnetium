@@ -10,8 +10,9 @@ class ArduinoSerial(object):
     DEFAULT_BAUD = 115200
     _logger = logging.getLogger("ArduinoSerial")
 
-    def __init__(self):
+    def __init__(self, scale=1):
         self._serial = Serial()
+        self._scale = scale
 
     def _send_gcode(self, gcode):
         if gcode:
@@ -28,7 +29,7 @@ class ArduinoSerial(object):
         Send a command to the arduino to move the magnet to a specific (x, y)
         """
         self._logger.debug("going to %s", point)
-        self._send_gcode("G90X%sY%s" % tuple(point))
+        self._send_gcode("G90X%sY%s" % tuple(((self._scale * x) for x in point)))
 
     def _set_magnet_state(self, is_on):
         """
