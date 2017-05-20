@@ -17,7 +17,9 @@ def main():
     vo = VoiceOutput()
     vr = VoiceRecognition()
     game = ChessGame()
-
+    
+    logging.basicConfig(level=logging.DEBUG)
+    
     while True:
         vo.say('Please state the source piece coordinate')
         source_coordinate = recognize_coords(vr, vo)
