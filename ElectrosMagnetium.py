@@ -37,8 +37,8 @@ def play_game(vo, vr, hardware_interface):
         
         if not move_ok:
             vo.say('Your move was illegal')
-        
-        vo.say('Your move was done')
+        else:
+            vo.say('Your move was done')
 
     if Game.TIE == game.get_state():
         vo.say('You have reached a tie')
