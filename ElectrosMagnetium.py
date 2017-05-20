@@ -21,7 +21,7 @@ def translate_coord(coord):
     return (ord(coord[0]) - ord('A'), ord(coord[1]) - ord('1'))
 
 def play_game(vo, vr, hardware_interface):
-    game = ChessGame()
+    game = ChessGame(hardware_interface)
     
     while Game.PLAYING == game.get_state():
         vo.say('Please state the source piece coordinate')
