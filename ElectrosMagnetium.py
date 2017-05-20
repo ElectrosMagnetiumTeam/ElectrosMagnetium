@@ -4,6 +4,7 @@ from VoiceRecognition import VoiceRecognition
 from VoiceOutput import VoiceOutput
 from Games.Chess.ChessGame import ChessGame
 from ArduinoSerial import ArduinoSerial
+import logging
 
 # Physical board scale in CM
 BOARD_SCALE = 30
