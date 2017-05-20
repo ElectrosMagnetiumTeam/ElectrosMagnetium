@@ -50,12 +50,12 @@ def play_game(vo, vr, hardware_interface):
         vo.say('Player {} wins by {}'.format(*game.get_victory_string()))
 
 def main(args):
+    logging.basicConfig(level=logging.DEBUG)
+    
     vo = VoiceOutput()
     vr = VoiceRecognition()
 
     hardware_interface = ArduinoSerial(port=args.port, scale=BOARD_SCALE)
-    
-    logging.basicConfig(level=logging.DEBUG)
     
     while True:
         vo.say('New game has begun')
@@ -64,7 +64,7 @@ def main(args):
 def parse_args():
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--textual', dest='is_textual', action='store_true')
-    parser.add_argument('--port', dest='port', type=str)
+    parser.add_argument('--port', dest='port', type=str, default="")
     args = parser.parse_args() 
     print '[ArgumentParser] {}'.format(args)
     return args

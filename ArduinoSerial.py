@@ -48,7 +48,7 @@ class ArduinoSerial(object):
         # windows bug...
         try:
             self._serial.open()
-        except SerialException:
+        except Exception:
             pass
         self._send_gcode("")
         self._send_gcode("")
