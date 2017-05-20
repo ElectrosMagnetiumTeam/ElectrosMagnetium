@@ -16,10 +16,10 @@ sudo apt-get install festival
 
 For the chess logic
 ```sh
-pip install python-chess
+sudo pip install python-chess
 ```
 
 For the serial:
 ```sh
-pip install pyserial logging
+sudo pip install pyserial logging
 ```

@@ -5,13 +5,14 @@ from VoiceOutput import VoiceOutput
 from Games.Chess.ChessGame import ChessGame
 from ArduinoSerial import ArduinoSerial
 import logging
+import argparse
 
 # Physical board scale in CM
 BOARD_SCALE = 30
 
 def recognize_coords(vr, vo):
     while True:
-        coord = vr.recognize()
+        coord = vr.recognize().replace(" ", "").strip()
         if len(coord) == 2 and ('A' <= coord[0] <= 'H') and ('1' <= coord[1] <= '8'):
             vo.say('Your coordinate was - {}'.format(coord))
             return coord
@@ -48,11 +49,11 @@ def play_game(vo, vr, hardware_interface):
     else:
         vo.say('Player {} wins by {}'.format(*game.get_victory_string()))
 
-def main():
+def main(args):
     vo = VoiceOutput()
     vr = VoiceRecognition()
 
-    hardware_interface = ArduinoSerial(BOARD_SCALE)
+    hardware_interface = ArduinoSerial(port=args.port, scale=BOARD_SCALE)
     
     logging.basicConfig(level=logging.DEBUG)
     
@@ -60,6 +61,13 @@ def main():
         vo.say('New game has begun')
         play_game(vo, vr, hardware_interface)
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('--textual', dest='is_textual', action='store_true')
+    parser.add_argument('--port', dest='port', type=str)
+    args = parser.parse_args() 
+    print '[ArgumentParser] {}'.format(args)
+    return args
 
 if __name__ == '__main__':
-    main()
+    main(parse_args())
