@@ -1,5 +1,6 @@
 from Game import Game
 from ChessPiece import ChessPiece, EMPTY_SQUARE
+import ArduinoSerial
 import chess # python-chess
 import re
 
@@ -34,6 +35,7 @@ class ChessGame(Game):
         self._chess_board = chess.Board(fen)
         self._fen = fen
         self._graveyard = self._fen_to_array(graveyard_fen)
+        self._hardware = ArduinoSerial.ArduinoSerial()
         Game.__init__(self, self.BOARD_WIDTH, self.BOARD_HEIGHT)
         print '[ChessGame] instance initiallized with FEN: "{}" and graveyard FEN: "{}"'.format(fen, graveyard_fen)
 
@@ -55,26 +57,50 @@ class ChessGame(Game):
 
         return pieces
 
-    def add_piece(self, piece):
-        """
-        Adds a game piece
-        """
-        self._pieces.append(piece)
+    def _grid_to_board(self, x, y):
+        '''
+        Convert a chess piece's grid x,y coordinates to a normal chess board's coordinates
+        '''
+        # Chess columns are represented with letters while rows are numbers
+        x = chr(ord('a') + x + self.GRAVEYARD_WIDTH)
+        y = str(y) 
+        return (x,y)
 
-    def remove_piece(self, piece):
+    def _board_to_grid(self, x, y):
+        '''
+        Convert a chess piece's board normal x,y coordinates to the grid's coordinates 
+        '''
+        # Chess columns are represented with letters while rows are numbers
+        x = ord(x) - ord('a')
+        y = int(y) 
+        return (x,y)
+
+    # Get, place and remove piece were overwritten since we are working with a different
+    # grid than the user input because of the graveyard mechanics
+    def get_piece(self, x, y):
+        """
+        Get a game piece by (x, y). 
+        """
+        x, y = self._board_to_grid(x, y)
+        return self._grid[x][y]
+
+    def place_piece(self, piece, x, y):
+        """
+        Place a game piece in the grid if it's empty 
+        """
+        x, y = self._board_to_grid(x, y)
+        if None == self._grid[x, y]:
+            self._grid[x][y] = value
+            return True
+        else:
+            return False
+
+    def remove_piece(self, x, y):
         """
         Remove a game piece
         """
-        self._pieces.remove(piece)
-
-    def get_piece(self, x, y):
-        """
-        Get a game piece by (x, y)
-        """
-        for piece in self._pieces:
-            if piece.get_coords() == (x, y):
-                return piece
-        return None
+        x, y = self._board_to_grid(x, y)
+        self._grid[x][y] = None
 
     def set_initial_pieces(self):
         """
@@ -84,7 +110,7 @@ class ChessGame(Game):
         for y in range(self.BOARD_HEIGHT):
             for x in range(self.BOARD_WIDTH):
                 # The content of the first and last 2 columns needs to be parsed from
-                # the graveyard fen while the regular chess board's content is taken
+                # the graveyard FEN while the regular chess board's content is taken
                 # from the internal chess board object. 
                 if self.GRAVEYARD_WIDTH > x:
                     self._grid[x][y] = ChessPiece(self._graveyard[x+y], x, y)
@@ -94,7 +120,8 @@ class ChessGame(Game):
                     piece = self._chess_board.piece_at((x - self.GRAVEYARD_WIDTH) + (y * self.PLAYING_FIELD_WIDTH))
                     if piece:
                         self._grid[x][y] = ChessPiece(str(self._chess_board.piece_at((x - self.GRAVEYARD_WIDTH) + 
-                                                                          (y * self.PLAYING_FIELD_WIDTH))), x, y)
+                                                                          (y * self.PLAYING_FIELD_WIDTH))), 
+                                                                          x, y)
                     else:
                         # Empty squares are initialized with ChessPieces of type '.' for now for easier debugging.
                         # TODO: Replace with None later?
@@ -112,4 +139,4 @@ class ChessGame(Game):
         the grid and physically moving the pieces according to the game's specific
         pieces animations and grid sizes
         """
-        pass
+        _hardware.move(list(self._board_to_grid(*from_piece.get_coords())))

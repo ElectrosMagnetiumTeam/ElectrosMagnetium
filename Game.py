@@ -11,8 +11,8 @@ class Game(object):
         """
         Place a game piece in the grid if it's empty 
         """
-        if None == _grid[x, y]:
-            _grid[x][y] = value
+        if None == self._grid[x, y]:
+            self._grid[x][y] = value
             return True
         else:
             return False
@@ -21,13 +21,13 @@ class Game(object):
         """
         Remove a game piece
         """
-        return _grid[x][y]
+        self._grid[x][y] = None
 
     def get_piece(self, x, y):
         """
         Get a game piece by (x, y)
         """
-        return _grid[x][y]
+        return self._grid[x][y]
 
     def set_initial_pieces(self):
         """

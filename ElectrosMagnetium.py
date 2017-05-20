@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+
 from VoiceRecognition import VoiceRecognition
 from VoiceOutput import VoiceOutput
+from Games.Chess.ChessGame import ChessGame
 import time
 
 def recognize_coords(vr, vo):
@@ -13,6 +16,9 @@ def recognize_coords(vr, vo):
 def main():
     vo = VoiceOutput()
     vr = VoiceRecognition()
+
+    game = ChessGame()
+
     while True:
         vo.say('Please state the source piece coordinate')
         source_coordinate = recognize_coords(vr, vo)
@@ -21,6 +27,9 @@ def main():
         dest_coordinate = recognize_coords(vr, vo)
 
         vo.say('You requested a move from {} to {}'.format(source_coordinate, dest_coordinate))
+
+        game.move(*source_coordinate + dest_coordinate)
+
         time.sleep(4)
 
 if __name__ == '__main__':
