@@ -3,6 +3,7 @@
 from VoiceRecognition import VoiceRecognition
 from VoiceOutput import VoiceOutput
 from Games.Chess.ChessGame import ChessGame
+from ArduinoSerial import ArduinoSerial
 import time
 
 # Physical board scale in CM
