@@ -42,7 +42,7 @@ def play_game(vo, vr, hardware_interface):
             vo.say('Your move was done')
 
     if Game.TIE == game.get_state():
-        vo.say('You have reached a tie by {}'.format(game.get_victory_string()[1])
+        vo.say('You have reached a tie by {}'.format(game.get_victory_string()[1]))
     else:
         vo.say('Player {} wins by {}'.format(*game.get_victory_string()))
 
