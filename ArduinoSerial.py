@@ -25,8 +25,9 @@ class ArduinoSerial(object):
             grbl_out = self._serial.readline().strip()
         except SerialException:
             pass
-        if grbl_out:
-            self._logger.debug("recived %s", grbl_out)
+        else:
+            if grbl_out:
+                self._logger.debug("recived %s", grbl_out)
 
     def _go_to(self, point):
         """
