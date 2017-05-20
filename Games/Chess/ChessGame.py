@@ -150,11 +150,7 @@ class ChessGame(Game):
         """
         Calls the superclass move() and updates the game state
         """
-<<<<<<< HEAD
-        super(ChessGame, self).move(x_from, y_from, x_to, y_to)
-=======
         was_move_legal = super(Game, self).move(x_from, y_from, x_to, y_to)
->>>>>>> e709ddafdff62b11e6d3a61137ca8379b6825d58
 
         if self._chess_board.is_game_over():
             if self._chess_board.is_checkmate():
