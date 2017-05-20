@@ -196,5 +196,5 @@ class ChessGame(Game):
         """
         move = self.get_move(from_piece, to_piece)
         self._chess_board.push(move)
-        print self._chess_board
-        #self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])
+
+        self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])
