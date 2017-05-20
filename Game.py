@@ -1,32 +1,33 @@
 class Game(object):
-    def __init__(self):
+    def __init__(self, board_width, board_height):
         """
         Initialize the game object
         """
         print '[Game] instance initiallized'
-        self._pieces = []
+        self._grid = [[None for y in range(board_height)] for x in range(board_width)] 
         self.set_initial_pieces()
 
-    def add_piece(self, piece):
+    def place_piece(self, piece, x, y):
         """
-        Adds a game piece
+        Place a game piece in the grid if it's empty 
         """
-        self._pieces.append(piece)
+        if None == _grid[x, y]:
+            _grid[x][y] = value
+            return True
+        else:
+            return False
 
-    def remove_piece(self, piece):
+    def remove_piece(self, x, y):
         """
         Remove a game piece
         """
-        self._pieces.remove(piece)
+        return _grid[x][y]
 
     def get_piece(self, x, y):
         """
         Get a game piece by (x, y)
         """
-        for piece in self._pieces:
-            if piece.get_coords() == (x, y):
-                return piece
-        return None
+        return _grid[x][y]
 
     def set_initial_pieces(self):
         """
@@ -40,10 +41,11 @@ class Game(object):
         """
         raise NotImplementedError("Please Implement this method in a subclass")
 
-    def do_move_effect(self, from_piece, to_piece):
+    def execute_move(self, from_piece, to_piece):
         """
-        If a move has an effect (e.g. eating, or any othe special effect),
-        implement it in this function
+        Subclass specific implementation of move that takes care of updating
+        the grid and physically moving the pieces according to the game's specific
+        pieces animations and grid sizes
         """
         raise NotImplementedError("Please Implement this method in a subclass")
 
@@ -67,7 +69,4 @@ class Game(object):
         to_piece = self.get_piece(x_to, y_to)
 
         # do the move's special effects
-        self.do_move_effect(from_piece, to_piece)
-
-        # set the new coordinates for the from piece
-        from_piece.set_coords(x_to, y_to)
+        self.execute_move(from_piece, to_piece)
