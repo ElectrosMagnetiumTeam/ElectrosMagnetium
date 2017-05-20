@@ -1,9 +1,10 @@
 class GamePiece(object):
-    def __init__(self, _type, x, y):
+    def __init__(self, piece_type, x, y):
         """
         Initialize the game piece object
         """
-        print '[GamePiece] instance initiallized in ({}, {})'.format(_type, x, y)
+        print '[GamePiece] Instance initiallized of type "{}" at ({}, {})'.format(piece_type, x, y)
+        self._type = piece_type
         self._x = x
         self._y = y
 
@@ -19,3 +20,15 @@ class GamePiece(object):
         """
         self._x = x
         self._y = y
+
+    def get_type(self):
+        """
+        Returns the type of the piece
+        """
+        return _type
+
+    def set_type(self, piece_type):
+        """
+        Sets the type of the piece 
+        """
+        self._type = piece_type
