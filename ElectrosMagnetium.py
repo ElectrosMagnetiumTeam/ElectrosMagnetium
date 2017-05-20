@@ -37,7 +37,6 @@ def play_game(vo, vr, hardware_interface):
         
         if not move_ok:
             vo.say('Your move was illegal')
-            continue
         
         vo.say('Your move was done')
 
