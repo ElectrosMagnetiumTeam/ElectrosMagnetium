@@ -16,7 +16,6 @@ def recognize_coords(vr, vo):
 def main():
     vo = VoiceOutput()
     vr = VoiceRecognition()
-
     game = ChessGame()
 
     while True:
@@ -28,9 +27,12 @@ def main():
 
         vo.say('You requested a move from {} to {}'.format(source_coordinate, dest_coordinate))
 
-        game.move(*source_coordinate + dest_coordinate)
-
-        time.sleep(4)
+        move_ok = game.move(*source_coordinate + dest_coordinate)
+        
+        if not move_ok:
+            vo.say('Your move was illegal')
+        else:
+            vo.say('Your move was done')
 
 if __name__ == '__main__':
     main()
