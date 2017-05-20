@@ -25,6 +25,8 @@ def play_game(vo, vr, hardware_interface):
     game = ChessGame(hardware_interface)
     
     while game.PLAYING == game.get_state():
+        vo.say('It is team {}s turn'.format(game.get_turn_string()))
+
         vo.say('Please state the source piece coordinate')
         source_coordinate = recognize_coords(vr, vo)
 

@@ -75,6 +75,13 @@ class Game(object):
         """
         raise NotImplementedError("PLease Implement this method in a subclass")
 
+    def get_turn_string(self):
+        """
+        Subclass specific implementation.
+        Get the name of the currently playing team
+        """
+        raise NotImplementedError("PLease Implement this method in a subclass")
+
     def move(self, x_from, y_from, x_to, y_to):
         """
         Does a game move.
@@ -96,4 +103,5 @@ class Game(object):
 
         # do the move's special effects
         self.execute_move(from_piece, to_piece)
+
         return True

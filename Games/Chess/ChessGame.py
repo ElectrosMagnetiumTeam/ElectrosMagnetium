@@ -150,6 +150,12 @@ class ChessGame(Game):
 
         return (team, reason)
 
+    def get_turn_string(self):
+        """
+        Get the name of the currently playing team
+        """
+        return "white" if self._chess_board.turn else "black" 
+
     def is_move_legal(self, from_piece, to_piece):
         """
         checks if the move is legal
@@ -191,4 +197,4 @@ class ChessGame(Game):
         move = self.get_move(from_piece, to_piece)
         self._chess_board.push(move)
         print self._chess_board
-        self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])
+        #self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])
