@@ -213,7 +213,12 @@ class ChessGame(Game):
         the grid and physically moving the pieces according to the game's specific
         pieces animations and grid sizes
         """
+        # Update the internal chess board
         move = self.get_move(from_piece, to_piece)
         self._chess_board.push(move)
 
         self._hardware.move([from_piece.get_coords(), to_piece.get_coords()])
+
+        # Make the from_piece empty and the to_piece have the from_piece's type
+        to_piece.set_type(from_piece.get_type())
+        from_piece.set_type(EMPTY_SQUARE)
