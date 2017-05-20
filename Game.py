@@ -35,9 +35,9 @@ class Game(object):
         """
         raise NotImplementedError("Please Implement this method in a subclass")
 
-    def is_move_legal(self, x_from, y_from, x_to, y_to):
+    def is_move_legal(self, from_piece, to_piece):
         """
-        checks if the move from (x_from, y_from) to (x_to, y_to) is legal
+        checks if the move is legal
         """
         raise NotImplementedError("Please Implement this method in a subclass")
 
@@ -61,12 +61,12 @@ class Game(object):
         if from_piece is None:
             return False
 
-        # check if the move is legal
-        if not self.is_move_legal(x_from, y_from, x_to, y_to):
-            return False
-
         # get the piece that is in the destination (if exists)
         to_piece = self.get_piece(x_to, y_to)
+
+        # check if the move is legal
+        if not self.is_move_legal(from_piece, to_piece):
+            return False
 
         # do the move's special effects
         self.execute_move(from_piece, to_piece)
