@@ -22,10 +22,10 @@ We also use the FEN piece placement format to describe the status of the physica
 creation is important for 'save file' restoration.
 '''
 class ChessGame(Game):
-    GRAVEYARD_WIDTH = 2
+    GRAVEYARD_WIDTH = 0
     PLAYING_FIELD_WIDTH = 8
     BOARD_HEIGHT = 8
-    BOARD_WIDTH = 12 # GRAVEYARD_WIDTH + PLAYING_FIELD_WIDTH
+    BOARD_WIDTH = 8 # GRAVEYARD_WIDTH + PLAYING_FIELD_WIDTH
 
     def __init__(self, hardware, 
                  fen='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',

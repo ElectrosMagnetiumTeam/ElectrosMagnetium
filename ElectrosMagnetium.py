@@ -8,7 +8,8 @@ import logging
 import argparse
 
 # Physical board scale in CM
-BOARD_SCALE = 30
+BOARD_SCALE_X = 6.7
+BOARD_SCALE_Y = 7.0
 
 def recognize_coords(vr, vo):
     while True:
@@ -22,7 +23,7 @@ def recognize_coords(vr, vo):
 def translate_coord(coord):
     return (ord(coord[0]) - ord('A'), ord(coord[1]) - ord('1'))
 
-def play_game(vo, vr, hardware_interface):
+def play_game(vo, vr, hardware_interface, is_textual):
     game = ChessGame(hardware_interface)
     print game
     
@@ -30,10 +31,10 @@ def play_game(vo, vr, hardware_interface):
         vo.say('It is team {}s turn'.format(game.get_turn_string()))
 
         vo.say('Please state the source piece coordinate')
-        source_coordinate = recognize_coords(vr, vo)
+        source_coordinate = recognize_coords(vr, vo) if not is_textual else raw_input()
 
         vo.say('Please state the destination piece coordinate')
-        dest_coordinate = recognize_coords(vr, vo)
+        dest_coordinate = recognize_coords(vr, vo) if not is_textual else raw_input()
 
         vo.say('You requested a move from {} to {}'.format(source_coordinate, dest_coordinate))
 
@@ -57,11 +58,11 @@ def main(args):
     vo = VoiceOutput()
     vr = VoiceRecognition()
 
-    hardware_interface = ArduinoSerial(port=args.port, scale=BOARD_SCALE)
+    hardware_interface = ArduinoSerial(port=args.port, scalex=BOARD_SCALE_X, scaley=BOARD_SCALE_Y)
     
     while True:
         vo.say('New game has begun')
-        play_game(vo, vr, hardware_interface)
+        play_game(vo, vr, hardware_interface, args.is_textual)
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -73,3 +74,4 @@ def parse_args():
 
 if __name__ == '__main__':
     main(parse_args())
+

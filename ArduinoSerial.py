@@ -10,17 +10,18 @@ class ArduinoSerial(object):
     DEFAULT_BAUD = 115200
     _logger = logging.getLogger("ArduinoSerial")
 
-    def __init__(self, port, scale=1):
+    def __init__(self, port, scalex=1, scaley=1):
         self._serial = Serial()
-        self._scale = scale
+        self._scale_x = scalex
+        self._scale_y = scaley
         self.open(port)
 
     def _send_gcode(self, gcode):
         if gcode:
             self._logger.debug("sending gcode %s", gcode)
-        gcode += "\n"
+        #gcode += "\n"
         try:
-            self._serial.write("%s\n" % (gcode,))
+            self._serial.write("%s\r\n" % (gcode,))
             # Wait for grbl response with carriage return
             grbl_out = self._serial.readline().strip()
         except SerialException:
@@ -34,21 +35,22 @@ class ArduinoSerial(object):
         Send a command to the arduino to move the magnet to a specific (x, y)
         """
         self._logger.debug("going to %s", point)
-        self._send_gcode("G90X%sY%s" % tuple(((self._scale * x) for x in point)))
+        self._send_gcode("G90X%sY%s" % (point[1] * self._scale_y, point[0] * self._scale_x))
 
     def _set_magnet_state(self, is_on):
         """
         Send a command to the arduino to activate/deactivate the magnet
         """
         self._logger.debug("turning magnet %s", "on" if is_on else "off")
-        self._send_gcode("M3" if is_on else "M4")
+        self._send_gcode("M4" if is_on else "M3")
 
     def open(self, port, baud=DEFAULT_BAUD):
         try:
             self._serial = Serial(port=port, baudrate=baud)
             self._serial.open()
-        except Exception:
-            pass
+        except Exception as e:
+            self._logger.error('Failed to open {}'.format(e))
+	    return
         self._send_gcode("")
         self._send_gcode("")
         self._logger.info("%s is opened", self._serial.port)
@@ -82,6 +84,7 @@ if __name__ == "__main__":
         level=logging.DEBUG)
     from IPython.terminal.embed import InteractiveShellEmbed
     globals().update(locals())
-    arduino_serial = ArduinoSerial()
+    arduino_serial = ArduinoSerial("/dev/ttyUSB0")
     InteractiveShellEmbed(banner1="", confirm_exit=False, exit_msg="Bye :)")()
     arduino_serial.close()
+
